@@ -11,6 +11,166 @@
     "application/json"
   ],
   "paths": {
+    "/v1/todo": {
+      "post": {
+        "operationId": "TodoService_CreateTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/todoTodo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/todoTodo"
+            }
+          }
+        ]
+      }
+    },
+    "/v1/todo/{id}": {
+      "get": {
+        "operationId": "TodoService_GetTodoById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/todoTodo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "title",
+            "description": "Title must be between 1 and 100 characters",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "description": "Description must not be empty",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "completed",
+            "description": "No validation needed",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "TodoService_DeleteTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "title",
+            "description": "Title must be between 1 and 100 characters",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "description": "Description must not be empty",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "completed",
+            "description": "No validation needed",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ]
+      },
+      "put": {
+        "operationId": "TodoService_UpdateTodo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/todoTodo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TodoServiceUpdateTodoBody"
+            }
+          }
+        ]
+      }
+    },
     "/v1/user": {
       "post": {
         "operationId": "UserService_CreateUser",
@@ -70,6 +230,23 @@
     }
   },
   "definitions": {
+    "TodoServiceUpdateTodoBody": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "title": "Title must be between 1 and 100 characters"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description must not be empty"
+        },
+        "completed": {
+          "type": "boolean",
+          "title": "No validation needed"
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -95,6 +272,28 @@
             "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "todoTodo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "readOnly": true
+        },
+        "title": {
+          "type": "string",
+          "title": "Title must be between 1 and 100 characters"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description must not be empty"
+        },
+        "completed": {
+          "type": "boolean",
+          "title": "No validation needed"
         }
       }
     },

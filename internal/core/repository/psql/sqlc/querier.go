@@ -14,6 +14,13 @@ type Querier interface {
 	GetUserById(ctx context.Context, id int32) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	ListUser(ctx context.Context) ([]User, error)
+
+	// Todos queries
+	CountTodo(ctx context.Context) (int64, error)
+	CreateTodo(ctx context.Context, arg CreateTodoParams) error
+	GetTodoById(ctx context.Context, id int64) (Todo, error)
+	ListTodos(ctx context.Context) ([]Todo, error)
+	UpdateTodo(ctx context.Context, arg UpdateTodoParams) error
 }
 
 var _ Querier = (*Queries)(nil)

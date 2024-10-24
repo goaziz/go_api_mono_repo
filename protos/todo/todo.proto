@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package todo;
+
+option go_package = "github.com/abdukhashimov/go_api_mono_repo/generated/todo";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/api/field_behavior.proto";
+import "validate/validate.proto";
+
+message Todo {
+  int64 id = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+  string title = 2 [(validate.rules).string.min_len = 1, (validate.rules).string.max_len = 100];  // Title must be between 1 and 100 characters
+  string description = 3 [(validate.rules).string.min_len = 1];  // Description must not be empty
+  bool completed = 4;  // No validation needed
+}
+
+service TodoService {
+  rpc CreateTodo(Todo) returns (Todo) {
+    option (google.api.http) = {
+      post: "/v1/todo",
+      body: "*"
+    };
+  }
+  rpc GetTodoById(Todo) returns (Todo) {
+    option (google.api.http) = {
+      get: "/v1/todo/{id}",
+    };
+  }
+
+  rpc UpdateTodo(Todo) returns (Todo) {
+    option (google.api.http) = {
+      put: "/v1/todo/{id}",
+      body: "*"
+    };
+  }
+
+  rpc DeleteTodo(Todo) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/todo/{id}",
+    };
+  }
+}
