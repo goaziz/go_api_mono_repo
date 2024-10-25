@@ -17,10 +17,10 @@ type Querier interface {
 
 	// Todos queries
 	CountTodo(ctx context.Context) (int64, error)
-	CreateTodo(ctx context.Context, arg CreateTodoParams) error
+	CreateTodo(ctx context.Context, arg CreateTodoParams) (Todo, error)
 	GetTodoById(ctx context.Context, id int64) (Todo, error)
 	ListTodos(ctx context.Context) ([]Todo, error)
-	UpdateTodo(ctx context.Context, arg UpdateTodoParams) error
+	UpdateTodo(ctx context.Context, arg UpdateTodoParams) (Todo, error)
 }
 
 var _ Querier = (*Queries)(nil)

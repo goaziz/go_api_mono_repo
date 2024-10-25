@@ -17,9 +17,17 @@ sqlc:
 createdb:
 	docker exec -it ${PSQL_CONTAINER_NAME} createdb -U postgres ${PROJECT_NAME}
 
+.PHONY: createtestdb
+createtestdb:
+	docker exec -it ${PSQL_CONTAINER_NAME} createdb -U postgres testdb
+
 .PHONY: execdb
 execdb:
 	docker exec -it ${PSQL_CONTAINER_NAME} psql -U postgres ${PROJECT_NAME}
+
+.PHONY: exectestdb
+exectestdb:
+	docker exec -it ${PSQL_CONTAINER_NAME} psql -U postgres testdb
 
 .PHONY: dropdb
 dropdb:
